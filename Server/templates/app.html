@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footballer Classifier</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./dropzone.min.css">
+    <link rel="stylesheet" href="./app.css">
+    <link rel=stylesheet href="{{ url_for('static', filename='dropzone.min.css') }}">
+    <link rel=stylesheet href="{{ url_for('static', filename='app.css') }}">
+
+</head>
+
+<body>
+    <nav class="navbar navbar-light bg-light justify-content-center">
+        <a class="navbar-brand" href="#">Footballer Classifier</a>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+        <div class="col card-wrapper" data-player="cristiano_ronaldo">
+                <div class="card border-0">
+                    <div class="position-relative rounded-circle overflow-hidden mx-auto custom-circle-image">
+                        <img class="w-100 h-100" src="{{url_for('static', filename='ronaldo.jpg')}}"alt="Card image cap"/>
+                    </div>
+                    <div class="card-body text-center mt-4">
+                        <h6 class="text-uppercase card-title">Cristiano Rolando</h6>
+                        </p>
+                    </div>
+                </div>
+            </div>        
+            <div class="col card-wrapper" data-player="gavi">
+                <div class="card border-0">
+                    <div class="position-relative rounded-circle overflow-hidden mx-auto custom-circle-image">
+                        <img class="w-100 h-100" src="{{url_for('static',filename='gavi.jpg')}}" alt="Card image cap">
+                    </div>
+                    <div class="card-body text-center mt-4">
+                        <h6 class="text-uppercase card-title">Gavi</h6>
+                        </p>
+                    </div>
+                </div>
+            </div>        
+            <div class="col card-wrapper" data-player="harry_kane">
+                <div class="card border-0">
+                    <div class="position-relative rounded-circle overflow-hidden mx-auto custom-circle-image">
+                        <img class="w-100 h-100" src="{{url_for('static',filename='kane.jpg')}}" alt="Card image cap">
+                    </div>
+                    <div class="card-body text-center mt-4">
+                        <h6 class="text-uppercase card-title">Harry Kane</h6>
+                        </p>
+                    </div>
+                </div>
+            </div>            
+            <div class="col card-wrapper" data-player="jamal_musiala">
+                    <div class="card border-0">
+                        <div class="position-relative rounded-circle overflow-hidden mx-auto custom-circle-image">
+                            <img class="w-100 h-100" src="{{url_for('static',filename='musiala.jpg')}}" alt="Card image cap">
+                        </div>
+                        <div class="card-body text-center mt-4">
+                            <h6 class="text-uppercase card-title">Jamal Musiala</h6>
+                            </p>
+                        </div>
+                    </div>
+            </div>            
+            <div class="col card-wrapper" data-player="mbappe">
+                    <div class="card border-0">
+                        <div class="position-relative rounded-circle overflow-hidden mx-auto custom-circle-image">
+                            <img class="w-100 h-100" src="{{url_for('static',filename='mbappe.jpg')}}" alt="Card image cap">
+                        </div>
+                        <div class="card-body text-center mt-4">
+                            <h6 class="text-uppercase card-title">Mbappe</h6>
+                            </p>
+                        </div>
+                    </div>
+            </div>          
+
+            <div class="col card-wrapper" data-player="messi">
+                <div class="card border-0">
+                    <div class="position-relative rounded-circle overflow-hidden mx-auto custom-circle-image">
+                        <img class="w-100 h-100" src="{{url_for('static',filename='messi.jpg')}}" alt="Card image cap">
+                    </div>
+                    <div class="card-body text-center mt-4">
+                        <h6 class="text-uppercase card-title">Leonel Messi</h6>
+                        </p>
+                    </div>
+                </div>
+            </div>      
+
+            <div class="col card-wrapper" data-player="neymar_jr">
+                <div class="card border-0">
+                    <div class="position-relative rounded-circle overflow-hidden mx-auto custom-circle-image">
+                        <img class="w-100 h-100" src="{{url_for('static',filename='neymar.jpg')}}" alt="Card image cap">
+                    </div>
+                    <div class="card-body text-center mt-4">
+                        <h6 class="text-uppercase card-title">Neymar Jr</h6>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-12 mx-auto">
+                        <form method="post" enctype="multipart/form-data">
+                            {{ form.hidden_tag() }}
+                            {% for error in form.photo.errors %}
+                                <span>{{error}}</span>
+                            {% endfor %}
+                    
+                            <div>
+                                {{form.photo(class='form-control')}}
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-3">
+                                    {{form.submit(class='btn btn-success')}}
+
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="col-sm-6" style="margin-left: 150px;">
+                {% if file_url %}
+                    <div class="col-sm-6">
+                        <img src="{{ file_url }}" style="width: 200px;">
+                    </div>
+                {% endif %}
+                {% if result %}
+                <div>
+                    
+                    <div>
+                        {% if result[0]=='messi' %}
+                            <h3>Lionel Messi</h3>
+                            <h5 style="color: rgb(37, 37, 37);">Argentina Football Team</h5>
+                            <h5 style="color: rgb(37, 37, 37);">Age : 35</h5>
+                            <h6 style="color: rgb(64, 64, 64);">Lionel Andres Messi is a professional football player who played as a forward for the Argentina national team and Spanish club FC Barcelona and will now play for Paris Saint-Germain. Born on 24 June 1987 in Rosario, Argentina, Messi is considered as one of the best footballers of this generation and greatest of all time.
+
+
+                                Messi has five FIFA Ballon d’Or to his name, matched only by his rival Cristiano Ronaldo. A versatile attacker, Messi plays on the right-wing or as a center-forward. Nicknamed ‘La Pulga’, he has scored 672 senior career goals from 778 appearances to date.
+                                
+                                
+                            </h6>
+                        {% endif %}
+                        {% if result[0]=='cristiano ronaldo' %}
+                            <h3>Cristiano Ronaldo</h3>
+                            <h5 style="color: rgb(37, 37, 37);">Portugal Football Team</h5>
+                            <h5 style="color: rgb(37, 37, 37);">Age : 37</h5>
+                            <h6 style="color: rgb(64, 64, 64);">Cristiano Ronaldo dos Santos Aveiro was born on 5 February 1985 in Madeira, Portugal. He plays as a forward for Italian club Juventus and the Portugal national team. Commonly known as Cristiano Ronaldo or CR7, he is regarded as one of the best players of this generation.
+
+
+                                He has won the FIFA Ballon d’Or five times, two Ballon D'or's behind by his arch rival Lionel Messi. Known for his pace and physicality, Ronaldo plays on the left wing, but can play as a striker as well. The Portuguese international has scored goals 698 from 933 club appearances till date making him arguably the greatest footballer of all time.</h6>
+                        {% endif %}
+                        {% if result[0]=='gavi' %}
+                            <h3>Gavi</h3>
+                            <h5 style="color: rgb(37, 37, 37);">Spain Football Team</h5>
+                            <h5 style="color: rgb(37, 37, 37);">Age : 18</h5>
+                            <h6 style="color: rgb(64, 64, 64);">Gavi has been winning the hearts of many Barcelona and Spain fans for just over a year, since he made the jump to senior football, not least those of the royal family in Spain.
+
+                                Diario AS say that Crown Princess Leonor has something of a crush on the minute midfielder. According to their information, her school folder is covered in photos of the Spain international.
+                                
+                                The Princess of Asturias attends the Atlantic School in Glamorgan, Wales, where many royals from various countries have had their education. She is next in line to the Spanish throne.</h6>
+                        {% endif %}
+                        {% if result[0]=='harry kane' %}
+                            <h3>Harry Kane</h3>
+                            <h5 style="color: rgb(37, 37, 37);">England Football Team</h5>
+                            <h5 style="color: rgb(37, 37, 37);">Age : 29</h5>
+                            <h6 style="color: rgb(64, 64, 64);">Harry Kane is a professional footballer who currently plays for Premier League club Tottenham and the England national team. Born on 28 July 1983, the striker is known for his stunning goalscoring ability Which helped him gain a position in premier league top goal scorers, exemplified by his scoring 30 goals in each of the last three seasons for Tottenham.
+
+
+                            </h6>
+                        {% endif %}
+                        {% if result[0]=='jamal musiala' %}
+                            <h3>Jamal Musiala</h3>
+                            <h5 style="color: rgb(37, 37, 37);">Germany Football Team</h5>
+                            <h5 style="color: rgb(37, 37, 37);">Age : 19</h5>
+                            <h6 style="color: rgb(64, 64, 64);">Jamal Musiala is a German professional footballer who plays as an attacking midfielder or winger for Bundesliga club Bayern Munich and the Germany national team. Born in Germany to a Nigerian father and German mother, he was raised from the age of seven in England. </h6>
+                        {% endif %}
+                        {% if result[0]=='mbappe' %}
+                            <h3>Kylian Mbappé</h3>
+                            <h5 style="color: rgb(37, 37, 37);">France Football Team</h5>
+                            <h5 style="color: rgb(37, 37, 37);">Age : 24</h5>
+                            <h6 style="color: rgb(64, 64, 64);">Kylian Mbappé Lottin is a French professional footballer who plays as a forward for Ligue 1 club Paris Saint-Germain and the France national team. Considered one of the best players in the world, he is renowned for his dribbling abilities, exceptional speed, and finishing.</h6>
+                        {% endif %}
+                        {% if result[0]=='neymar' %}
+                            <h3>Neymar Jr</h3>
+                            <h5 style="color: rgb(37, 37, 37);">Brazil Football Team</h5>
+                            <h5 style="color: rgb(37, 37, 37);">Age : 30</h5>
+                            <h6 style="color: rgb(64, 64, 64);">Neymar da Silva Santos Júnior, known as Neymar, is a Brazilian professional footballer who plays as a forward for Ligue 1 club Paris Saint-Germain and the Brazil national team. A prolific goalscorer and renowned playmaker, he is regarded as one of the best players in the world. Wikipedia</h6>
+                        {% endif %}
+
+                    </div>
+
+                </div>
+                {% else %}
+                    <div class="col-sm-6">
+                        <h5 style="color: red;">Did you select Any Images?</h5>
+                        <h6 style="color: blue;">Can't classify image? Classifier is not able to detect face without seeing two eyes properly.</h6>
+                    </div>
+                {% endif %}
+
+            </div>
+
+            
+            
+
+            
+            
+            
+        </div>
+
+    </div>
+
+</body>
+
+</html>

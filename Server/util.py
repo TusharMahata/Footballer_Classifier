@@ -1,0 +1,100 @@
+import cv2 as cv
+import json
+import joblib
+import numpy as np
+import base64
+from wavelet import w2d
+
+
+__class_name_to_number = {}
+__class_number_to_name = {}
+
+__model = None
+
+def classify_image(image_base64_data, file_path=None):
+    imgs = get_cropped_image_if_2_eyes(file_path, image_base64_data)
+
+    result = []
+    names = []
+    for img in imgs:
+         
+        #image = cv.imread(training_img.path)
+        scalled_raw_img = cv.resize(img, (32,32))
+        img_har = w2d(img, 'db1', 5)
+        img_har_scalled = cv.resize(img_har, (32,32))
+        combined_img = np.vstack((scalled_raw_img.reshape(32*32*3,1),img_har_scalled.reshape(32*32,1)))
+
+        len_image_array = 32*32*3+32*32
+        final = combined_img.reshape(1,len_image_array).astype(float)
+
+        
+        result = class_number_to_name(__model.predict(final)[0]),
+            #'class_probability': np.round(__model.predict_proba(final)*100, 2).tolist()[0],
+        names = __class_name_to_number
+            
+    
+    return result
+
+def load_saved_artifacts():
+    print('loading saved artifacts...start')
+    global __class_name_to_number
+    global __class_number_to_name
+
+    with open(r'C:\Users\DCL\Footballer Recognizer\Server\artifacts\class_dictionary.json', 'r') as f:
+        __class_name_to_number = json.load(f)
+        __class_number_to_name = {v:k for k, v in __class_name_to_number.items()}
+
+    global __model
+    if __model is None:
+        with open(r'C:\Users\DCL\Footballer Recognizer\Server\artifacts\saved_model.pkl', 'rb') as f:
+            __model = joblib.load(f)
+    print('loading saved artifacts... Done')
+
+def class_number_to_name(class_num):
+    return __class_number_to_name[class_num]
+
+def get_cv_image_from_base64_string(b64str):
+    encoded_data = b64str.split(',')[1]
+    nparr = np.frombuffer(base64.b64decode(encoded_data), np.uint8)
+    img = cv.imdecode(nparr, cv.IMREAD_COLOR)
+    return img
+
+def get_cropped_image_if_2_eyes(image_path, image_base64_data):
+    face_cascade = cv.CascadeClassifier(r'C:\Users\DCL\Footballer Recognizer\Model\haar_face.xml')
+    eye_cascade = cv.CascadeClassifier(r'C:\Users\DCL\Footballer Recognizer\Model\haar_eyes.xml')
+    #faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+    #eyes = eye_cascade.detectMultiScale(gray, 1.3, 5)
+
+    #eyes
+    if image_path:
+        img = cv.imread(image_path, 1)
+    else: 
+        img = get_cv_image_from_base64_string(image_base64_data)
+
+    
+
+    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+    cropped_faces=[]
+
+    for (x, y, w, h) in faces:
+        roi_gray = gray[y:y+h, x:x+w]
+        roi_color = img[y:y+h, x:x+w]
+        eyes = eye_cascade.detectMultiScale(roi_gray)
+        if len(eyes)>=2:
+            cropped_faces.append(roi_color)
+    return cropped_faces
+
+        
+    
+def get_b64_test_image_for_messi():
+    with open(r'C:\Users\DCL\Footballer Recognizer\Server\b64.txt') as f:
+        return f.read()
+
+if __name__ == '__main__':
+    load_saved_artifacts()
+    #print(classify_image(get_b64_test_image_for_messi(), None))
+    #print(classify_image(None, r'C:\Users\DCL\Footballer Recognizer\Server\test_imgs\mussial.jpg'))
+    print(classify_image(None, r'C:\Users\DCL\Footballer Recognizer\Server\test_imgs\kane.jpg'))
+
+    #print(class_number_to_name(2))
