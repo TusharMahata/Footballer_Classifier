@@ -66,4 +66,4 @@ if __name__=='__main__':
     #path = r'C:\Users\DCL\Footballer Recognizer\Server\test_imgs\mussial.jpg'
     #print(util.classify_image(None, path))
 
-    #app.run(port:5000)
+    app.run(port:5000)
