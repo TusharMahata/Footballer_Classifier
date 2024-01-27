@@ -1,8 +1,8 @@
-# Footballer Recognizer
+# Footballer Classifier
 
 ## Introduction
 
-Welcome to the Footballer Recognizer project! This project focuses on classifying images of football celebrities using machine learning. The dataset comprises various images obtained from the internet, covering 7 classes with a total of 673 images. The data preprocessing involves face and eye detection using Haar Cascade Classifiers, generating cropped images, and applying wavelet transformation for feature extraction.
+Welcome to the Footballer Classifier project! This project focuses on classifying images of football celebrities using machine learning. The dataset comprises various images obtained from the internet, covering 7 classes with a total of 673 images. The data preprocessing involves face and eye detection using Haar Cascade Classifiers, generating cropped images, and applying wavelet transformation for feature extraction.
 
 ## Dataset
 
@@ -39,7 +39,7 @@ The model is deployed using a Flask web application. Users can upload images, an
 ## How to Use
 
 1. Clone the repository.
-2. Install the required dependencies using `requirements.txt`.
+2. Install the required dependencies.
 3. Run the Flask application (`app.py`).
 4. Access the application through a web browser.
 5. Upload an image for classification.
